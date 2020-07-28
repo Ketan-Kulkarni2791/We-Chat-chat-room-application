@@ -1,0 +1,46 @@
+****** Flask-Login *******
+
+-- Since we have a login functionality, we should also have a logout functionality.
+-- But logout from where ? Bcz all that our login functionality doing is that the username and the password entered by
+   the user matches the records we have in our databse, and then we show user a confirmation screen.
+-- We haven't stored anything anywhere which says that the user has logged in.
+-- Clearly before we can log the user off step one would be to store somewhere the fact that the user is logged in.
+-- Storing the login information will also help us to prevent access to certain pages of our website which we want
+   restricted to only the logged in users.
+-- Flask has a easy way to manage this through sessions.
+-- With the help of sessions, you can store bits of non-sensitive data about the user in the form of a cookie.
+-- We can write code to have flask manage sessions directly.
+-- Another method to do this is to use flask extension called 'flask-login' which will abstract away some of the
+   implementation details of session management.
+-- So things like store active user is ID in the session and let them log in and log out easily, restrict views to
+   logged in users, 'remember me' functionality etc.
+-- So to achieve you have to install flask-login extension. And then import LoginManager from flask_login.
+
+******* UserMixin ********
+
+-- To tell flask-login about the user, we need to pass in usermixin as the first parameter.
+-- What is UserMixin ? UserMixin basically tells flask login about our user and it sort of mixes into our class
+   some properties and methods that we can use.
+-- By adding UserMixin, it automatically adds these properties to our class. You can then check whether a user for
+   example is authenticated by just using these property. We can check if the user is active by using this property. We
+   can use get_Id method to get the user's id.
+-- One thing to remember is that  UserMixin does not modify our database in any way. It just adds an additional set of
+   properties and a method to the User class which mix it easier to do session management.
+-- So we have to import UserMixin from flask_login.
+-- So far what we have done is to tell flask login about our User model. But this is just a model that applies to all
+   users who have registered on our website. To log in and log out specific users, we need to load specific users to
+   flask-login. So each time a user logs in we need to load that user.
+-- To do this, we implement a loader function. This function will take in user id and return a user object.
+-- The syntax is @login.user_loader , and this login is basically the same variable to which we have initiated
+   LoginManager.
+-- To login a user, we can use the inbuilt login user function and pass in the user object. for that, import Login_User.
+-- But how do we know for sure that the user is logged in ? Well, flask-login comes in with a variable called
+   current_user. So let's import it : current_user.
+-- This current user is proxy for the user_object. For example, if you want to get the username of the current user, we
+   can do current_user.username and we can do this for the any column in the database.
+-- Here, we have to figure out whether the current_user is logged in. Thanks to UserMixin added to our User class, we can
+   directly use is_authenticate method that came with UserMixin.
+-- To get access user to chat page, the user must be logged in. So to protect this page, we can use the inbuilt functions
+   called 'login_required'. Let's import it from flask-login first. And then just use it as a decorator. So if a user
+   tries to access this page without logged in, we will see an error message.
+-- To logout a user, we can use another built in flask-login function 'logout_user()'. Import it.

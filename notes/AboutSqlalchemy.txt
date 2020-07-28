@@ -1,0 +1,6 @@
+******* SQLAlchemy ********
+
+-- Sqlalchemy is a set of tool used to access various sql databases like sqlite, mysql, mssql and in our case postgresql.
+-- With sqlalchemy, you can use classes and class like objects and features with a database.
+-- Using sqlalchemy, we don't have to write raw sql code every time you want to update or modifiy item in the database.
+-- In this project, we are going to use flask-sqlalchemy which adds a top layer to sqlalchemy.

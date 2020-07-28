@@ -1,0 +1,36 @@
+***** Polling Vs WebSockets Vs Socket.io *****
+
+                                        Polling :
+-- In a typical HTTP request/response model, client has to request server, and then only server will respond.
+-- Server is something which is constantly listening to the requests, and then responds to it.
+-- The server independently cannot push the data to th clients without receiving any request from clients.
+-- This model is ok is you are requesting a data which is already there in the server. E.g. if you want to view a web
+   page, and it's already there in the server, then the server can send us that page in response the moment we request.
+-- but this model is not going to work well for a chat application.
+-- Here, when a server receives message that our friend sends us, it cannot proactively push this message to us. Bcz in
+   a typical HTTP request/respond model, the client has to request the data before the sender can send it. So the server
+   has to patiently sit on this new data till the time the client asks server to send this new data.
+-- So one way around this is to use 'short polling'. In this, the client will automatically check with the server for
+   new data at pre-defined intervals. The server still cannot send the response without a request from the client.
+   However since the client automatically places the request periodically, the new data is also sent to the client at
+   regular interval.
+                                        WebSockets :
+-- After the initial hand-shake, the client and the server establishes a permanent connection through which they can
+   simultaneously send and receive messages to and from each other.
+-- In the websocket protocol, a server does not have to wait for a request from the client to send any new data. The
+   moment server receives any new data, it sends it automatically to the client.
+-- So this is bidirectional. It's different from HTTP model.
+-- This connection is permanent until either client or server close it.
+-- In my chat application, many other clients will also be there connected to the same server. The moment we send
+   message to server, server will immediately dispatch that message proactively to all other clients instantly without
+   those clients need to poll the data from server.
+                                        Socket.IO
+-- It's a javascript library to enable real time web applications.
+-- It allows clients and servers to have bidirectional communication.
+-- Then what's the difference between websockets and socket.io ? Websockets is a protocol. Like HTTP, it's a piece of
+   technology while socket.io is a javascript library.
+-- What socket.io does is that it will upgrade the connection between a client and a server to websocket protocol if
+   it's possible. Otherwise, it will downgrade the connection transparently to http polling method. Socket.io will do
+   all of this in the background for us. So as a user, we don't have to worry about switching from one protocol to
+   another. The user experience will seem like a real time experience.
+-- In this project, I have used flask-socket io.
